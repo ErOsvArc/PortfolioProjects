@@ -1,6 +1,6 @@
 -- These queries are for Tableau
 
--- 1. This sums up all recorded cases and deaths for the global population, AS well AS the death rate. 
+-- 1. This sums up all recorded cases and deaths for the global population, as well as the death rate. 
 
 SELECT SUM(new_cases) AS total_cases, SUM(Cast(new_deaths AS int)) AS total_deaths, SUM(Cast(new_deaths AS int))/SUM(New_cases)*100 AS DeathPercentage
 FROM PortfolioProject..CovidDeaths
@@ -30,8 +30,8 @@ GROUP BY Location, Population
 ORDER BY PercentPopulationInfected DESC
 
 
--- 4.This looks at the days which had the highest percent of population infected, and lists them in DESCending order. Note that the population is fixed,
---   so the percentage is scaling bASed off of the infection count.
+-- 4.This looks at the days which had the highest percent of population infected, and lists them in descending order. Note that the population is fixed,
+--   so the percentage is scaling based off of the infection count.
 
 
 SELECT Location, Population,date, MAX(total_cases) AS HighestInfectionCount,  Max((total_cases/population))*100 AS PercentPopulationInfected
