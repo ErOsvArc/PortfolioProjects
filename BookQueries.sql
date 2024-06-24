@@ -156,27 +156,27 @@ ADD State NCHAR(255) NULL,
 -- Clearing " and . characters so the string can be parsed.
 UPDATE BookUsers
 SET temp_loc =	REPLACE(
-					REPLACE(
-						REPLACE(Location, '"', ''),
-						'.', ''),
-					' ', '_'); -- Replacing whitespace with _ allows for the parse function to work even with empty comma spaces.
+			REPLACE(
+				REPLACE(Location, '"', ''),
+				'.', ''),
+			' ', '_'); -- Replacing whitespace with _ allows for the parse function to work even with empty comma spaces.
 
 
 UPDATE BookUsers
 SET State = REPLACE(
-				PARSENAME(
-					TRIM(
-						REPLACE(temp_loc, ',', '.')
-						),
-					2),
-				'_', ''),
-	Country = SUBSTRING(
-				Location,
-				4+LEN(Location)-CHARINDEX(',', REVERSE(Location)),
-				LEN(temp_loc)
+		PARSENAME(
+			TRIM(
+				REPLACE(temp_loc, ',', '.')
 				),
+			2),
+		'_', ''),
+	Country = SUBSTRING(
+			Location,
+			4+LEN(Location)-CHARINDEX(',', REVERSE(Location)),
+			LEN(temp_loc)
+			),
 	City = SUBSTRING(temp_loc, 0, 
-				CHARINDEX(',', temp_loc));
+			CHARINDEX(',', temp_loc));
 
 -- Those with no data for country will be converted to NULL values, and the rest capitalized.
 UPDATE BookUsers
@@ -247,10 +247,10 @@ WHERE Country = 'Usa';
 UPDATE BookUsers
 SET Country = NULL
 WHERE NOT EXISTS (SELECT value FROM BookUsers AS A INNER JOIN CountryList ON Sound_Value = SoundValue 
-					WHERE BookUsers.Country = value)
-	  AND NOT EXISTS (SELECT id FROM BookUsers AS A INNER JOIN CountryList ON BookUsers.Country = id
-						WHERE BookUsers.Country = id)
-	  AND Country IS NOT NULL;
+			WHERE BookUsers.Country = value)
+	AND NOT EXISTS (SELECT id FROM BookUsers AS A INNER JOIN CountryList ON BookUsers.Country = id
+			WHERE BookUsers.Country = id)
+	AND Country IS NOT NULL;
 
 
 
